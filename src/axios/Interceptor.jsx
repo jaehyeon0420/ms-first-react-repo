@@ -37,7 +37,6 @@ function setInterceptors(instance) {
     //오류 발생 시 : 인터셉터 오류 응답 함수 실행 => 각 컴포넌트 axios catch 함수 실행
 	instance.interceptors.response.use(
 		function(response) {
-            console.log('axios success test');
             if(response.data.clientMsg != undefined && response.data.clientMsg != ''){
                 
                 Swal.fire({
