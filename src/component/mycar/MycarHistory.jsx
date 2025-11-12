@@ -37,7 +37,7 @@ export default function MycarHistory(){
     return(
         <>  <section className="section section-info">
                 <div className="page-title">수리비 견적 이력</div>
-                <table className="tbl" style={{minHeight : '500px'}}>
+                <table className="tbl">
                     <thead>
                         <tr>
                             <th style={{width:"10%"}}>번호</th>
