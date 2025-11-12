@@ -3,7 +3,7 @@ import Footer from './component/common/Footer';
 import { Route, Routes } from 'react-router-dom';
 import Join from './component/member/Join';
 import Login from './component/member/Login';
-import MypageMain from './component/mypage/MypageMain';
+import MycarMain from './component/mycar/MycarMain';
 
 
 function App() {
@@ -16,7 +16,7 @@ function App() {
           <Route path='/' element={<Login />} />
           <Route path='/join' element={<Join />} />
           <Route path='/login' element={<Login />} />
-          <Route path='/mypage/*' element={<MypageMain />} /> {/* mypage로 시작하는 URL은 MypageMain을 라우팅 */}
+          <Route path='/mycar/*' element={<MycarMain />} /> {/* mycar로 시작하는 URL은 MycarMain을 라우팅 */}
         </Routes>
       </main>
       <Footer />

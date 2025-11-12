@@ -4,12 +4,12 @@ import { useEffect, useState } from "react";
 import {Link, Route, Routes, useNavigate } from "react-router-dom";
 import useUserStore from "../../store/useUserStore"; //Store import
 import LeftMenu from "../common/LeftMenu";
-import MypageInfo from "./MypageInfo";
-import MypagePay from "./MypagePay";
-import MypageHistory from "./MypageHistory";
-import "./mypage.css";
+import MycarInfo from "./MycarInfo";
+import MycarPay from "./MycarPay";
+import MycarHistory from "./MycarHistory";
+import "./mycar.css";
 
-export default function MemberMain() {
+export default function MycarMain() {
     //스토리지 저장 정보
     const {isLogined, setIsLogined, loginMember, setAccessToken, setRefreshToken} = useUserStore();
     const navigate = useNavigate();
@@ -36,38 +36,36 @@ export default function MemberMain() {
     
     //화면 좌측에 보여질 메뉴 리스트
     const [menuList, setMenuList] = useState([
-        {url : "/mypage/info" , text : "🚗 내 차 정보"},
-        {url : "/mypage/pay", text : "🚓 수리비 견적 받기"},
-        {url : "/mypage/history", text : "🚕 견적 이력 보기"}
+        {url : "/mycar/info" , text : "🚗 내 차 정보"},
+        {url : "/mycar/pay", text : "🚓 수리비 견적 받기"},
+        {url : "/mycar/history", text : "🚕 견적 이력 보기"}
     ]);
 
     useEffect(function(){
-        navigate('/mypage/info');
+        navigate('/mycar/info');
     },[]);
 
 
 
     return(
-        <div className="mypage-wrap">
-            <div className="mypage-side">
+        <div className="mycar-wrap">
+            <div className="mycar-side">
                 <section className="section account-box">
                     <div className="account-info">
-                        {loginMember.memberLevel == 1 ? 
-                        <span className="material-icons">account_circle</span> : 
-                        <span className="material-icons">settings</span>}
+                        <span className="material-icons">account_circle</span>
                         <span>{loginMember.memberName}</span>
                         <Link to="#" onClick={logout}>로그아웃</Link>
                     </div>
                 </section>
-                <section className="section">
+                <section className="section left-menu">
                     <LeftMenu menuList={menuList} />
                 </section>
             </div>
-            <div className="mypage-content">
+            <div className="mycar-content">
                 <Routes>
-                    <Route path='info' element={<MypageInfo />} />
-                    <Route path='pay' element={<MypagePay />} />
-                    <Route path='history' element={<MypageHistory />} />
+                    <Route path='info' element={<MycarInfo />} />
+                    <Route path='pay' element={<MycarPay />} />
+                    <Route path='history' element={<MycarHistory />} />
                 </Routes>
             </div>
         </div>

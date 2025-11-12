@@ -1,11 +1,13 @@
 
+.left-menu {
+    height : 542px;
+}
 .section-info{
-    min-height: 600px;
+    min-height: 700px;
 }
 
 /* Join.js */
 .join-wrap {
-    width: 400px;
     margin :0 auto;
     align-self: center;
 }
@@ -13,10 +15,12 @@
     padding: 10px 30px;
 }
 .join-button-box {
+    display: flex;
+    justify-content: center;
     padding: 20px 30px;
 }
 .join-button-box>button {
-    width: 100%;
+    width: 20%;
 }
 /* Login.js */
 .login-wrap {
@@ -40,15 +44,15 @@
 }
 
 /* MemberMain */
-.mypage-wrap {
-    width :1200px;
+.mycar-wrap {
+    width :1350px;
     display: flex;
     gap : 10px;
 }
-.mypage-side {
+.mycar-side {
     width: 20%;
 }
-.mypage-content {
+.mycar-content {
     flex : 1;
 }
 .account-box {

@@ -72,7 +72,7 @@ export default function Login() {
                     // 컴포넌트에서 서버 요청 액션이 발생하면 해당 요청을 서버로 보내기전에 가로채서
                     // 헤더에 토큰을 포함시키기 위해 axios 인터셉터 작성.
                     
-                    navigate("/mypage");
+                    navigate("/mycar");
                 }
             })
             .catch(function(error){
@@ -80,7 +80,11 @@ export default function Login() {
             });
         }
     }
-
+    //회원가입 페이지 이동
+    function moveJoinPage(){
+        navigate("/join");
+    }
+    
     return (
         <section className="section login-wrap">
             <div className="page-title">로그인</div>
@@ -111,10 +115,8 @@ export default function Login() {
                         로그인
                     </button>
                     <br></br><br></br>
-                    <button type="button" className="btn-secondary lg">
-                        <Link to="/join">
+                    <button type="button" className="btn-secondary lg" onClick={moveJoinPage}>
                         회원가입
-                        </Link>
                     </button>
                 </div>
             </form>
