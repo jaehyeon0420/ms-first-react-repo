@@ -8,6 +8,7 @@ import MycarInfo from "./MycarInfo";
 import MycarPay from "./MycarPay";
 import MycarHistory from "./MycarHistory";
 import "./mycar.css";
+import Swal from "sweetalert2";                 //sweetalert
 
 export default function MycarMain() {
     //스토리지 저장 정보
@@ -42,8 +43,24 @@ export default function MycarMain() {
     ]);
 
     useEffect(function(){
+        if(!isLogined){
+            Swal.fire({
+                title: "알림",
+                text : "로그인이 필요한 서비스입니다.",
+                icon : "warning",
+                confirmButtonText: "확인",
+            });
+
+            navigate('/login');
+        }
         navigate('/mycar/info');
     },[]);
+
+    //로그인 안 된 경우, JSX 그리지 않음
+    if(!isLogined){
+        navigate('/login');
+        return null;
+    }
 
 
 
@@ -53,8 +70,8 @@ export default function MycarMain() {
                 <section className="section account-box">
                     <div className="account-info">
                         <span className="material-icons">account_circle</span>
-                        <span>{loginMember.memberName}</span>
-                        <Link to="#" onClick={logout}>로그아웃</Link>
+                        <span className="user-info"><span style={{fontWeight : 'bold', color: 'var(--main2)'}}>"{loginMember.memberName}"</span>님, 환영합니다!</span>
+                        <Link className="logout" to="#" onClick={logout}>로그아웃</Link>
                     </div>
                 </section>
                 <section className="section left-menu">

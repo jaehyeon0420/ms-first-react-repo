@@ -1,4 +1,5 @@
 
+import Swal from "sweetalert2";                 //sweetalert
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useRef, useEffect, useState } from "react";
@@ -73,8 +74,38 @@ export default function MycarPay(){
         }
     }
 
+    //차량 선택 및 파손 이미지 엄로드 검증
+    function validateReq(){
+        if(selectedCar == ''){
+             Swal.fire({
+                title: "알림",
+                text : "견적을 요청할 차량을 선택하세요.",
+                icon : "warning",
+                confirmButtonText: "확인",
+            });
+
+            return;
+        }
+        if(brokenFileList.length == 0){
+             Swal.fire({
+                title: "알림",
+                text : "파손 이미지를 업로드 하세요.",
+                icon : "warning",
+                confirmButtonText: "확인",
+            });
+
+            return;
+        }
+
+        return true;
+    }
+
     //견적 요청
     function reqEstimate(){
+        if(!validateReq()){
+            return;
+        }
+
         let formData = new FormData();
 
         //차량 ID
@@ -138,7 +169,7 @@ export default function MycarPay(){
                                         </div>
                                     </li>
                         })
-                        : <img src="/images/default_img.png" onClick={function(e){
+                        : <img src="/images/default_img.png" className="pay-img" onClick={function(e){
                             brokenFileEl.current.click(); //아래 input type=file 클릭
                         }}/>
                     } 

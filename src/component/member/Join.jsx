@@ -134,69 +134,119 @@ export default function Join (props) {
         
     }
 
+    //차량 정보(차 번호, 차 종류, 차 별명, 차 연식, 첨부파일) 모두 입력했는지 검증 하는 함수
+    function validateCarInfo() {
+        for (let i = 0; i < carList.length; i++) {
+            const car = carList[i];
+            if (!car.carNo || !car.carKind || !car.carAlias || !car.carYear) {
+                return false; //빈 값 존재
+            }
+            //첨부파일도 선택했는지 검사
+            if (!carFileList[i]) {
+                return false; //첨부파일 없음
+            }
+        }
+        return true;
+    }
+
+
     //회원가입 요청
     function join() {
-
-        //아이디 및 비밀번호 입력 값 유효성 체크
-        if(idChk == 1 && pwChk == 1){
-            const form = new FormData();
-            
-            form.append("memberId", member.memberId);
-            form.append("memberPw", member.memberPw);
-            form.append("memberName", member.memberName);
-            form.append("memberPhone", member.memberPhone);
-
-            carFileList.forEach((file, index) => {
-                form.append("carFiles", file); //첨부파일 배열 전송
-            });
-            
-            carList.forEach((car, index) => {
-                form.append(`carList[${index}].carNo`, car.carNo);
-                form.append(`carList[${index}].carKind`, car.carKind);
-                form.append(`carList[${index}].carAlias`, car.carAlias);
-                form.append(`carList[${index}].carYear`, car.carYear);
-            });
-   
-            
-            let options = {};
-            options.method = "POST"; //등록 == POST
-            options.url = serverUrl + "/members";
-            options.data = form;
-            options.headers = {};
-            options.headers.contentType = "multipart/form-data";
-            options.headers.processData = false; //전송 데이터 쿼리 스트링 변환 여부(기본값 true). 폼 데이터 전송 시 false
-            
-            axiosInstance(options)
-            .then(function(res){
-                /* 회원가입 정상 => 이후, 컴포넌트 전환을 위해 Interceptor에 작성된 alert 사용 안함
-                    회원가입 비정상 => 처리안하면, 서버에서 응답한 객체 내용대로 Interceptor에서 alert 처리.
-                */
-                if(res.data.resData){
-                    Swal.fire({
-                        title: "알림",
-                        text : res.data.clientMsg,
-                        icon : res.data.alertIcon,
-                        confirmButtonText: "확인",
-                    }).then((result) => {
-                        if (result.isConfirmed) { //확인 버튼 클릭
-                            navigate("/login"); //성공 시, 로그인 컴포넌트로
-                        }
-                    });
-                    
-                }
-            })
-            .catch(function(error){
-                //서버에서 응답한 객체 내용대로 Interceptor에서 alert 처리.
-            });
-
-        }else {
+        if(idChk != 1 || pwChk != 1){
             Swal.fire({
                 title: "알림",
-                text : "입력값이 유효하지 않습니다.",
+                text : "아이디 및 비밀번호 입력값을 확인하세요.",
                 icon : "warning",
                 confirmButtonText: "확인",
             });
+
+            return;
         }
+        
+        if(member.memberName == '' || member.memberName == null){ 
+            Swal.fire({
+                title: "알림",
+                text : "이름을 입력하세요.",
+                icon : "warning",
+                confirmButtonText: "확인",
+            });
+
+            return;
+        }
+
+        if(member.memberPhone == '' || member.memberPhone == null){ 
+            Swal.fire({
+                title: "알림",
+                text : "전화번호를 입력하세요.",
+                icon : "warning",
+                confirmButtonText: "확인",
+            });
+
+            return;
+        }
+
+        if(!validateCarInfo()){
+            Swal.fire({
+                title: "알림",
+                text : "차량 정보 및 첨부파일을 모두 입력하세요.",
+                icon : "warning",
+                confirmButtonText: "확인",
+            });
+
+            return;
+        }
+
+        //아이디 및 비밀번호 입력 값 유효성 체크
+        const form = new FormData();
+        
+        form.append("memberId", member.memberId);
+        form.append("memberPw", member.memberPw);
+        form.append("memberName", member.memberName);
+        form.append("memberPhone", member.memberPhone);
+
+        carFileList.forEach((file, index) => {
+            form.append("carFiles", file); //첨부파일 배열 전송
+        });
+        
+        carList.forEach((car, index) => {
+            form.append(`carList[${index}].carNo`, car.carNo);
+            form.append(`carList[${index}].carKind`, car.carKind);
+            form.append(`carList[${index}].carAlias`, car.carAlias);
+            form.append(`carList[${index}].carYear`, car.carYear);
+        });
+
+        
+        let options = {};
+        options.method = "POST"; //등록 == POST
+        options.url = serverUrl + "/members";
+        options.data = form;
+        options.headers = {};
+        options.headers.contentType = "multipart/form-data";
+        options.headers.processData = false; //전송 데이터 쿼리 스트링 변환 여부(기본값 true). 폼 데이터 전송 시 false
+        
+        axiosInstance(options)
+        .then(function(res){
+            /* 회원가입 정상 => 이후, 컴포넌트 전환을 위해 Interceptor에 작성된 alert 사용 안함
+                회원가입 비정상 => 처리안하면, 서버에서 응답한 객체 내용대로 Interceptor에서 alert 처리.
+            */
+            if(res.data.resData){
+                Swal.fire({
+                    title: "알림",
+                    text : res.data.clientMsg,
+                    icon : res.data.alertIcon,
+                    confirmButtonText: "확인",
+                }).then((result) => {
+                    if (result.isConfirmed) { //확인 버튼 클릭
+                        navigate("/login"); //성공 시, 로그인 컴포넌트로
+                    }
+                });
+                
+            }
+        })
+        .catch(function(error){
+            //서버에서 응답한 객체 내용대로 Interceptor에서 alert 처리.
+        });
+
     }
 
     //첨부파일 업로드 시, 화면에 업로드 파일명칭 목록 보여주기 위한 State (서버로 데이터 전송 X)
