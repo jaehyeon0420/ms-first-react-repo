@@ -161,7 +161,7 @@ export default function MycarPay(){
                                     {carList ? carList.map(function(car, idx){
                                         return (
                                             <MenuItem key={"car"+idx} value={car.carId}>
-                                                {car.carNo}
+                                                {car.carAlias} [{car.carNo}]
                                             </MenuItem>
                                         )
                                     }) : null}

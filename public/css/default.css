@@ -172,7 +172,7 @@ a {
   color: var(--main2);
 }
 .footer {
-  background-color: var(--gray6);
+  background-color: var(--gray5);
 }
 
 .footer > div {
@@ -187,11 +187,12 @@ a {
 .footer li>a {
   color: var(--main2);
   font-weight: bold;
+  font-size : 15px;
 }
 .footer > div > p {
   margin: 10px 0px;
   font-family: ns-b; /* 상단 @font-face로 지정한 값 사용 */
-  font-size: 16px;
+  font-size: 13px;
   font-weight: bold;
 }
 

@@ -43,7 +43,7 @@ export default function MycarHistory(){
                             <th style={{width:"30%"}}>견적일시</th>
                             <th style={{width:"15%"}}>차량번호</th>
                             <th style={{width:"10%"}}>차량이름</th>
-                            <th style={{width:"15%"}}>예상견적비</th>
+                            <th style={{width:"15%"}}>예상 견적비</th>
                             <th style={{width:"20%"}}>파손이미지</th>
                             <th></th>
                         </tr>
@@ -67,7 +67,6 @@ export default function MycarHistory(){
 
 function EstimateItem(props) {
     const estimate = props.estimate; 
-    const serverUrl = import.meta.env.VITE_SPRING_CONTAINER_SERVER;
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     return (
@@ -76,8 +75,8 @@ function EstimateItem(props) {
             <td>{estimate.estimateDate}</td>
             <td>{estimate.carNo}</td>
             <td>{estimate.carAlias}</td>
-            <td>{estimate.repairCost}</td>
-            <td><button type="button" className="btn-primary sm" onClick={() => setIsModalOpen(true)}>이미지 보기</button> </td>
+            <td>{Number(estimate.repairCost).toLocaleString()}</td>
+            <td><button type="button" className="btn-primary sm" style={{fontWeight : 'bold'}} onClick={() => setIsModalOpen(true)}>확인</button> </td>
             <td><ImageModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} brokenFileList={estimate.brokenFileList} /></td>
         </tr>
     );
