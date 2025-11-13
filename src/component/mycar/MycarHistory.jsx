@@ -67,7 +67,7 @@ export default function MycarHistory(){
 
 function EstimateItem(props) {
     const estimate = props.estimate; 
-    const serverUrl = process.env.VITE_SPRING_CONTAINER_SERVER;
+    const serverUrl = import.meta.env.VITE_SPRING_CONTAINER_SERVER;
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     return (
@@ -179,7 +179,7 @@ document.head.appendChild(styleSheet);
 
 function ImageModal({ isOpen, onClose, brokenFileList }) {
   if (!isOpen) return null;
-  const serverUrl = process.env.VITE_SPRING_CONTAINER_SERVER;
+  const serverUrl = import.meta.env.VITE_SPRING_CONTAINER_SERVER;
 
   return (
     <div style={styles.overlay}>
@@ -200,7 +200,7 @@ function ImageModal({ isOpen, onClose, brokenFileList }) {
                   "/" +
                   file.brokenFilePath
                 }
-                alt="파손이미지"
+                alt='파손 이미지'
                 style={styles.image}
               />
               <span style={styles.imageName}>{file.brokenFileName}</span>

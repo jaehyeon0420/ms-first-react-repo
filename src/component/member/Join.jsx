@@ -302,14 +302,14 @@ export default function Join (props) {
                     </div>
                     {carList.map(function(car, index){
                         return (
-                                    <div className="input-item">
-                                <input type='text' name='carNo' placeholder="차 번호(ex. 19머 1234)" value={car.carNo} onChange={(e) => chgCarInfo(index, e)} />
-                                <input type='text' name='carKind' placeholder="차 종류(ex. SUV)" value={car.carKind} onChange={(e) => chgCarInfo(index, e)} />
-                                <input type='text' name='carAlias' placeholder="차 별명(ex. 나의 첫차)" value={car.carAlias} onChange={(e) => chgCarInfo(index, e)} />
-                                <input type='text' name='carYear' placeholder="차 연식(ex. 2020)" value={car.carYear} onChange={(e) => chgCarInfo(index, e)} />
-                                <button type="button" className="btn-secondary sm" onClick={() => removeCar(index)}>차량 삭제</button>
-                                <label htmlFor={"carFile"+index} className="btn-primary sm">파일첨부</label>
-                                <input type="file" id={"carFile"+index} style={{display:"none"}} onChange={(e) => chgCarFile(e, index)}/>
+                                <div className="input-item" key={"car"+index}>
+                                    <input type='text' name='carNo' placeholder="차 번호(ex. 19머 1234)" value={car.carNo} onChange={(e) => chgCarInfo(index, e)} />
+                                    <input type='text' name='carKind' placeholder="차 종류(ex. SUV)" value={car.carKind} onChange={(e) => chgCarInfo(index, e)} />
+                                    <input type='text' name='carAlias' placeholder="차 별명(ex. 나의 첫차)" value={car.carAlias} onChange={(e) => chgCarInfo(index, e)} />
+                                    <input type='text' name='carYear' placeholder="차 연식(ex. 2020)" value={car.carYear} onChange={(e) => chgCarInfo(index, e)} />
+                                    <button type="button" className="btn-secondary sm" onClick={() => removeCar(index)}>차량 삭제</button>
+                                    <label htmlFor={"carFile"+index} className="btn-primary sm">파일첨부</label>
+                                    <input type="file" id={"carFile"+index} style={{display:"none"}} onChange={(e) => chgCarFile(e, index)}/>
                                 </div>
                             )
                         })}
