@@ -77,7 +77,6 @@ function Car(props) {
             <div className="posting-info">
                 <div className="posting-title">{car.carNo}</div>
                 <div className="posting-sub-info">
-                    <span>{car.carKind}</span> 
                     <span>{car.carAlias}</span>
                 </div>
             </div>
