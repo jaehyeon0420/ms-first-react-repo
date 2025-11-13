@@ -12,7 +12,7 @@ import Select from '@mui/material/Select';
 
 
 export default function MycarPay(){
-    const serverUrl = 'http://localhost:9999';
+    const serverUrl = import.meta.env.VITE_SPRING_CONTAINER_SERVER;
     const axiosInstance = createInstance();
     const {loginMember} = useUserStore();
     const [carList, setCarList] = useState([]);     //차량 리스트
@@ -115,13 +115,13 @@ export default function MycarPay(){
                                 label="Grade"
                                 value={selectedCar}
                                 onChange={handleChange}>
-                                    {carList.map(function(car, idx){
+                                    {carList ? carList.map(function(car, idx){
                                         return (
                                             <MenuItem key={"car"+idx} value={car.carId}>
                                                 {car.carNo}
                                             </MenuItem>
                                         )
-                                    })}
+                                    }) : null}
                         </Select>
                     </FormControl>
                 </Box>

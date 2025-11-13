@@ -7,7 +7,7 @@ import useUserStore from "../../store/useUserStore"; //Store import
 import PageNavi from "../common/PageNavi";
 
 export default function MycarInfo(){
-    const serverUrl = 'http://localhost:9999';
+    const serverUrl = import.meta.env.VITE_SPRING_CONTAINER_SERVER;
     const axiosInstance = createInstance();
 
     const [carList, setCarList] = useState([]);     //차량 리스트

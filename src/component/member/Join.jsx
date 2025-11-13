@@ -5,7 +5,7 @@ import createInstance from "../../axios/Interceptor";
 
 export default function Join (props) {
     //.env 파일 내부 변수 값 읽기
-    const serverUrl = 'http://localhost:9999';
+    const serverUrl = import.meta.env.VITE_SPRING_CONTAINER_SERVER;
     const navigate = useNavigate();
 
     //토큰 만료 시, axios 인터셉터 설정된 axios 인스턴스 사용하기!
@@ -136,9 +136,6 @@ export default function Join (props) {
 
     //회원가입 요청
     function join() {
-        console.log(member);
-        console.log(carList);
-        console.log(carFileList);
 
         //아이디 및 비밀번호 입력 값 유효성 체크
         if(idChk == 1 && pwChk == 1){
@@ -209,9 +206,6 @@ export default function Join (props) {
     function chgCarFile(e, index){
         const files = e.currentTarget.files;//콘솔에는 배열처럼 보이지만 유사 배열이라 map 함수 사용못함.
 
-        console.log(index)
-        console.log(files[0]);
-        console.log(files[0].name);
 
         //전송할 파일 배열과 화면에 보여줄 파일 이름 배열에 복사하며 요소 추가.
         /* fileArr, fileNameArr 앞에 전개 연산자 생략하면, 배열 자체가 하나의 요소로 추가됨.

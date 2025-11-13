@@ -4,7 +4,7 @@ import useUserStore from "../../store/useUserStore"; //Store import
 import createInstance from "../../axios/Interceptor";
 
 export default function MycarHistory(){
-    const serverUrl = 'http://localhost:9999';
+    const serverUrl = import.meta.env.VITE_SPRING_CONTAINER_SERVER;
     const axiosInstance = createInstance();
 
     const [estimateList, setEstimateList] = useState([]); //견적 이력 리스트
@@ -20,7 +20,6 @@ export default function MycarHistory(){
         
         axiosInstance(options)
         .then(function(res){
-            console.log(res.data.resData.estimateList);
             //응답 게시글 리스트
             setEstimateList(res.data.resData.estimateList);
             //응답 페이지 네비게이션
@@ -68,7 +67,7 @@ export default function MycarHistory(){
 
 function EstimateItem(props) {
     const estimate = props.estimate; 
-    const serverUrl = 'http://localhost:9999';
+    const serverUrl = process.env.VITE_SPRING_CONTAINER_SERVER;
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     return (
@@ -180,7 +179,7 @@ document.head.appendChild(styleSheet);
 
 function ImageModal({ isOpen, onClose, brokenFileList }) {
   if (!isOpen) return null;
-  const serverUrl = 'http://localhost:9999';
+  const serverUrl = process.env.VITE_SPRING_CONTAINER_SERVER;
 
   return (
     <div style={styles.overlay}>
