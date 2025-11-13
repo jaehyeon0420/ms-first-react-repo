@@ -12,7 +12,7 @@ export default function Login() {
 
     const navigate = useNavigate();
     const serverUrl = import.meta.env.VITE_SPRING_CONTAINER_SERVER;
-    const axiosInstance = createInstance();
+    const axiosInstance = createInstance();  
 
     //로그인 입력 정보 저장 변수(서버 전송용)
     const [member, setMember] = useState({
