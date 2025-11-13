@@ -1,7 +1,5 @@
 
 import Swal from "sweetalert2";                 //sweetalert
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
 import { useRef, useEffect, useState } from "react";
 import useUserStore from "../../store/useUserStore"; //Store import
 import createInstance from "../../axios/Interceptor";

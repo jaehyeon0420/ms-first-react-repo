@@ -1,5 +1,3 @@
-
-
 export default function PageNavi(props){
 
     //페이지 네비게이션 정보
