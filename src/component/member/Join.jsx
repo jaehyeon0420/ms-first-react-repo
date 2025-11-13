@@ -2,6 +2,13 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";                 //sweetalert
 import createInstance from "../../axios/Interceptor";
+import Box from '@mui/material/Box';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import { fontWeight } from "@mui/system";
+
 
 export default function Join (props) {
     //.env 파일 내부 변수 값 읽기
@@ -32,7 +39,7 @@ export default function Join (props) {
 
     //차량정보 배열 저장 변수(차 번호, 차 종류, 차 별명, 차 연식)
     const [carList, setCarList] = useState([
-        { carNo : '', carKind : '', carAlias : '', carYear : ''}
+        { carNo : '', carKind : '', carAlias : ''}
     ]);
 
     //차량정보 입력 값 변경 시, 호출 함수
@@ -45,13 +52,15 @@ export default function Join (props) {
 
     // 차량 추가
     const addCar = () => {
-        setCarList([...carList, { carNo: '', carKind: '', carAlias: '', carYear: '' }]);
+        setCarList([...carList, { carNo: '', carKind: '', carAlias: ''}]);
     };
 
     // 차량 삭제
     const removeCar = (index) => {
-        const updatedCars = carList.filter((_, i) => i !== index);
-        setCarList(updatedCars);
+        if (carList.length != 1) {
+            const updatedCars = carList.filter((_, i) => i !== index);
+            setCarList(updatedCars);
+        }
     };
 
     /*MemberId 중복검사 및 유효성체크 (입력마다 클래스가 변경되어야 함. 중복체크 할때마다 표기 메시지도 변경되어야 함. State 사용)
@@ -138,7 +147,7 @@ export default function Join (props) {
     function validateCarInfo() {
         for (let i = 0; i < carList.length; i++) {
             const car = carList[i];
-            if (!car.carNo || !car.carKind || !car.carAlias || !car.carYear) {
+            if (!car.carNo || !car.carKind || !car.carAlias) {
                 return false; //빈 값 존재
             }
             //첨부파일도 선택했는지 검사
@@ -212,7 +221,6 @@ export default function Join (props) {
             form.append(`carList[${index}].carNo`, car.carNo);
             form.append(`carList[${index}].carKind`, car.carKind);
             form.append(`carList[${index}].carAlias`, car.carAlias);
-            form.append(`carList[${index}].carYear`, car.carYear);
         });
 
         
@@ -271,6 +279,19 @@ export default function Join (props) {
         setCarFileName(files[0].name);
     }
     
+    var style = {
+        img_btn : {
+            width: "60px",
+            height : '55px',
+            display : 'flex',
+            justifyContent : 'center',
+            alignItems : 'center',
+            padding : '0px',
+            fontWeight : 'bold'
+        }
+    }
+
+
     return (
         <section className="section join-wrap">
             <div className="page-title">회원가입</div>
@@ -352,20 +373,38 @@ export default function Join (props) {
                     </div>
                     {carList.map(function(car, index){
                         return (
-                                <div className="input-item" key={"car"+index}>
-                                    <input type='text' name='carNo' placeholder="차 번호(ex. 19머 1234)" value={car.carNo} onChange={(e) => chgCarInfo(index, e)} />
-                                    <input type='text' name='carKind' placeholder="차 종류(ex. SUV)" value={car.carKind} onChange={(e) => chgCarInfo(index, e)} />
-                                    <input type='text' name='carAlias' placeholder="차 별명(ex. 나의 첫차)" value={car.carAlias} onChange={(e) => chgCarInfo(index, e)} />
-                                    <input type='text' name='carYear' placeholder="차 연식(ex. 2020)" value={car.carYear} onChange={(e) => chgCarInfo(index, e)} />
-                                    <button type="button" className="btn-secondary sm" onClick={() => removeCar(index)}>차량 삭제</button>
-                                    <label htmlFor={"carFile"+index} className="btn-primary sm">파일첨부</label>
-                                    <input type="file" id={"carFile"+index} style={{display:"none"}} onChange={(e) => chgCarFile(e, index)}/>
+                                <div className="join-car-info" key={"car"+index} style={{marginTop : '10px'}}>
+                                    <div className="input-item">
+                                        <input type='text' name='carNo' placeholder="Ex) 19머 1234" value={car.carNo} onChange={(e) => chgCarInfo(index, e)} />
+                                        <input type='text' name='carAlias' placeholder="별명(ex. 나의 첫차)" value={car.carAlias} onChange={(e) => chgCarInfo(index, e)} />
+                                        <Box sx={{ minWidth: 120 }}>
+                                            <FormControl fullWidth>
+                                                <InputLabel id="demo-simple-select-label">유형</InputLabel>
+                                                <Select labelId="demo-simple-select-label" 
+                                                        id="demo-simple-select"
+                                                        label="Grade"
+                                                        name="carKind"
+                                                        value={car.carKind}
+                                                        onChange={(e) => chgCarInfo(index, e)}>
+                                                            <MenuItem key={"car"+index} value='CityCar'>경차</MenuItem>
+                                                            <MenuItem key={"car"+index} value='Compact car'>소형~준중형</MenuItem>
+                                                            <MenuItem key={"car"+index} value='Mid-size car'>중형</MenuItem>
+                                                            <MenuItem key={"car"+index} value='Full-size car'>준대형~대형</MenuItem>
+                                                </Select>
+                                            </FormControl>
+                                        </Box>
+                                        <label htmlFor={"carFile"+index} className="btn-primary sm join-img-btn" style={style.img_btn}>사진첨부</label>
+                                        <input type="file" id={"carFile"+index} style={{display:"none"}} onChange={(e) => chgCarFile(e, index)}/>
+                                        <button type="button" className="btn-secondary sm join-img-btn" style={style.img_btn} onClick={() => removeCar(index)}>삭제</button>
+                                    </div>
                                 </div>
                             )
                         })}
                 </div>
+                <div style={{textAlign : 'right', marginRight : '30px'}}>
+                    <button type="button" className="btn-primary sm" style={{fontWeight : '900'}} onClick={addCar}>+</button>
+                </div>
                 <div className="join-button-box">
-                    <button type="button" className="btn-primary md" onClick={addCar}>차량 추가</button>
                     <button type="submit" className="btn-primary lg">
                         회원가입
                     </button>

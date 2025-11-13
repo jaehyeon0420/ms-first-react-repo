@@ -10,6 +10,7 @@
 .join-wrap {
     margin :0 auto;
     align-self: center;
+    width : 650px;
 }
 .join-wrap .input-wrap {
     padding: 10px 30px;
@@ -21,6 +22,13 @@
 }
 .join-button-box>button {
     width: 20%;
+}
+.join-img-btn {
+    width: 50px;
+}
+
+.join-car-info input, .join-car-info select {
+    width: 100px;
 }
 /* Login.js */
 .login-wrap {
@@ -101,4 +109,81 @@
     display: flex;
     justify-content: center;
     gap: 30px;
+}
+
+
+
+
+
+.loading-overlay {
+  position: fixed;            /* 화면 전체 고정 */
+  top: 0;
+  left: 0;
+  width: 100vw;               /* 전체 화면 너비 */
+  height: 100vh;              /* 전체 화면 높이 */
+  background-color: rgba(0, 0, 0, 0.8);  /* 반투명 어두운 배경 */
+  display: flex;
+  align-items: center;        /* 수직 중앙 정렬 */
+  justify-content: center;    /* 수평 중앙 정렬 */
+  z-index: 9999;              /* 항상 맨 위 */
+  pointer-events: all;        /* 배경 클릭 차단 */
+}
+
+.loading-spinner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+/* 중앙의 로딩 박스 */
+.loading-box {
+  background-color: #ffffff;
+  padding: 2.5rem 3.5rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+/* 회전 스피너 */
+.spinner {
+  width: 100px;
+  height: 100px;
+  border: 20px solid #ddd;
+  border-top-color: var(--main2); /* 메인 색상 */
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+/* 로딩 텍스트 */
+.loading-text {
+  font-size: 1.2rem;
+  color: #fff;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  text-align: center;
+  margin : 20px auto;
+}
+
+/* 스피너 회전 애니메이션 */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* 박스 페이드인 효과 */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }

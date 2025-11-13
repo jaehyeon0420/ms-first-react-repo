@@ -21,6 +21,7 @@ export default function MycarPay(){
     const [selectedCar, setSelectedCar] = useState('');                     //선택된 차량
     const [brokenFileList, setBrokenFileList] = useState([]);               //파손 이미지 파일 객체 리스트
     const [brokenFileThumbList, setBrokenFileThumbList] = useState([]);     //파손 이미지 파일 썸네일 리스트(화면 표시용)
+    const [brokenFileNameList, setBrokenFileNameList] = useState([]);       //파손 이미지 이름 리스트(화면 표시용)
 
     //내 차량 리스트 조회
     useEffect(function(){
@@ -50,11 +51,13 @@ export default function MycarPay(){
         const files = e.target.files;
         const fileArr = new Array();
         const thumbArr = new Array();
+        const fileNameArr = new Array();
 
         if(files.length != 0 && files[0] != null){
             //파손 이미지들
             for(let i=0; i<files.length; i++){
                 fileArr.push(files[i]);
+                fileNameArr.push(files[i].name);
 
                 //화면에 파손 이미지들 보여주기
                 const reader = new FileReader();
@@ -68,9 +71,11 @@ export default function MycarPay(){
 
             //서버에 전송할 파일 리스트에 추가
             setBrokenFileList([...fileArr]);
+            setBrokenFileNameList([...fileNameArr]);
         }else{
             //업로드 팝업에서 취소 버튼 클릭 시, 파일들 제거
             setBrokenFileList([]);
+            setBrokenFileNameList([]);
         }
     }
 
@@ -101,10 +106,14 @@ export default function MycarPay(){
     }
 
     //견적 요청
+    const [loading, setLoading] = useState(false); //서버 요청중 상태값(false : 요청 전/요청 완료, true : 요청 중)에 따라, 로딩 모달 표시용
     function reqEstimate(){
         if(!validateReq()){
             return;
         }
+
+        //견적 요청 중 상태로 변경
+        setLoading(true);
 
         let formData = new FormData();
 
@@ -126,10 +135,13 @@ export default function MycarPay(){
         
         axiosInstance(options)
         .then(function(res){
-            console.log(res);
+            //견적비 화면에 보여주기
         })
         .catch(function(error){
-            console.log(error);
+        })
+        .finally(function(){
+            //견적 요청 중 상태 해제
+            setLoading(false);
         });
     }
 
@@ -137,7 +149,7 @@ export default function MycarPay(){
         <>  <section className="section section-info">
                 <div className="page-title">수리비 견적 받기</div>
                 <div style={{width : "60%", margin : "0 auto"}}>
-                    <Box sx={{ minWidth: 120 }}>
+                <Box sx={{ minWidth: 120 }}>
                     <FormControl fullWidth>
                         <InputLabel id="demo-simple-select-label">차량선택</InputLabel>
                         {/* Select : select, MenuItem : option 역할. 나머지 감싸는 태그들은 디자인 역할이므로 선택 사항 */}
@@ -166,6 +178,10 @@ export default function MycarPay(){
                                                 brokenFileEl.current.click(); //아래 input type=file 클릭
                                             }
                                             }/>
+                                            
+                                        </div>
+                                        <div className="posting-info">
+                                            <div className="posting-title">{brokenFileNameList[idx]}</div>
                                         </div>
                                     </li>
                         })
@@ -182,7 +198,22 @@ export default function MycarPay(){
                         견적 요청
                     </button>
                 </div>
+
+                {/* 로딩 중일 때 모달 표시 */}
+                {loading && <LoadingModal />}
             </section>
         </>
     );
+}
+
+/* --- 로딩 모달 컴포넌트 --- */
+function LoadingModal() {
+  return (
+    <div className="loading-overlay">
+      <div className="loading-spinner">
+        <div className="spinner"></div>
+        <p className="loading-text">수리비 견적 계산 중...</p>
+      </div>
+    </div>
+  );
 }
