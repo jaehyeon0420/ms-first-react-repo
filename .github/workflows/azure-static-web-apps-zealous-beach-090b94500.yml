@@ -32,6 +32,8 @@ jobs:
 
       # 3) 빌드
       - name: Build
+        env:
+          VITE_SPRING_CONTAINER_SERVER: ${{ secrets.VITE_SPRING_CONTAINER_SERVER }}
         run: npm run build
 
       # 4) (선택) 빌드 산출물 확인 - 디버깅용
@@ -66,4 +68,5 @@ jobs:
         with:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_ZEALOUS_BEACH_090B94500 }}
           action: "close"
+
 
