@@ -69,7 +69,7 @@ a {
   width: 100%;
   position: sticky; /* 스크롤 시, 타 요소와 겹쳐보이나 top : 0의 위치에 도달하면, 본인의 영역을 가진다. fixed랑 비교해볼것. */
   top: 0;
-  z-index:1;
+  z-index:99;
 }
 .header > div {
   padding: 10px;
@@ -155,6 +155,7 @@ a {
   max-width: 1400px;
   margin: 30px auto;
   flex: 1;
+  display: flex;
   /*
   flex : 1은 아래 3가지를 축약한 형태임.
   
@@ -199,7 +200,7 @@ a {
 section.section {
   padding: 20px;
   border-radius: 10px; /* 모서리 둥글게 */
-  background-color: var(--gray8);
+    background-color: var(--gray8);
 }
 section.section.bg-section {
   background-color: var(--box-bg);

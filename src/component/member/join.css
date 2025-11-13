@@ -1,0 +1,41 @@
+.terms-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* 수평 중앙 정렬 */
+  justify-content: center; /* 수직 중앙 정렬 */
+  height: 100vh; /* 화면 세로 전체 기준 중앙 배치 */
+}
+
+.term-box {
+  width: 82%;
+  height: 4000px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 20px;
+  padding-top : 0px;
+  margin: 20px 0;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  overflow-y: auto; /* 내용이 넘칠 경우 스크롤 */
+}
+.term-header {
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+  font-size: 16px;
+  margin-bottom: 10px;
+  position: sticky;
+  top: 0;
+  background-color: #fff; /* ← 반드시 불투명 배경색 지정 */
+  padding: 10px 0;
+  z-index: 2; /* 위에 표시되도록 */
+  border-bottom: 1px solid #ddd; /* 아래쪽에 구분선 */
+}
+
+
+.term-content {
+  font-size: 14px;
+  color: #333;
+  line-height: 1.6;
+  white-space: pre-wrap;
+}

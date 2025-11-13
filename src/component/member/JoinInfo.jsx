@@ -10,7 +10,7 @@ import Select from '@mui/material/Select';
 import { fontWeight } from "@mui/system";
 
 
-export default function Join (props) {
+export default function JoinInfo() {
     //.env 파일 내부 변수 값 읽기
     const serverUrl = import.meta.env.VITE_SPRING_CONTAINER_SERVER;
     const navigate = useNavigate();

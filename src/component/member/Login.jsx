@@ -82,7 +82,7 @@ export default function Login() {
     }
     //회원가입 페이지 이동
     function moveJoinPage(){
-        navigate("/join");
+        navigate("/join/agree");
     }
     
     return (
