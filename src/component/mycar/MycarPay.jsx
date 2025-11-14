@@ -134,6 +134,7 @@ export default function MycarPay(){
         axiosInstance(options)
         .then(function(res){
             //견적비 화면에 보여주기
+            console.log(res.data.resData);
         })
         .catch(function(error){
         })
