@@ -37,7 +37,7 @@ export default function MycarMain() {
     
     //화면 좌측에 보여질 메뉴 리스트
     const [menuList, setMenuList] = useState([
-        {url : "/mycar/info" , text : "🚗 내 차 정보"},
+        {url : "/mycar/info" , text : "🚗 ssssssssssssssssssssssssssssssssssss"},
         {url : "/mycar/pay", text : "🔧 수리비 견적 받기"},
         {url : "/mycar/history", text : "📜 견적 이력 보기"}
     ]);
