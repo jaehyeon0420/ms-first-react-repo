@@ -24,7 +24,7 @@ export default function MycarPay(){
     const [buttonFlag, setButtonFlag] = useState(false);                    //견적 요청 후, '견적 요청' 버튼 숨기기
     const [isModalOpen, setIsModalOpen] = useState(false);                  //모달 on/off 상태 체크
     const [selectedResIdx, setSelectedResIdx] = useState(null);
-
+  
     //내 차량 리스트 조회
     useEffect(function(){
         let options = {};
@@ -219,9 +219,14 @@ export default function MycarPay(){
                                                 </div>
                                             </li>
                                 })
-                        : <img src="/images/default_img.png" className="pay-img" onClick={function(e){
-                            brokenFileEl.current.click(); //아래 input type=file 클릭
-                        }}/>
+                        : 
+                        <div className="img-wrapper">
+                          <h3 style={{color : 'red', marginTop : '20px'}}>※ 아래 예시 이미지와 같이, 자동차의 전체 외관이 보이도록 업로드해주시기 바랍니다.</h3>
+                          <img src="/images/example.PNG" className="pay-img" onClick={function(e){
+                              brokenFileEl.current.click(); //아래 input type=file 클릭
+                          }}/>
+                          <div class="hover-text">클릭하여 이미지 업로드!</div>
+                        </div>
                     }
                 </ul>
                 <div style={{width : "60%", margin : "0 auto"}}>

@@ -187,3 +187,37 @@
     transform: scale(1);
   }
 }
+
+.img-wrapper {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.pay-img {
+  width: 100%;
+  height: auto;
+  transition: 0.3s;
+}
+
+.img-wrapper:hover .pay-img {
+  filter: blur(20px);
+}
+
+/* 기본은 투명 → hover 시 나타남 */
+.hover-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 30px;
+  font-weight: bold;
+  opacity: 0;
+  transition: 0.1s;
+  pointer-events: none;
+}
+
+.img-wrapper:hover .hover-text {
+  opacity: 1;
+}
