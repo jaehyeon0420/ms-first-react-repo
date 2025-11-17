@@ -197,16 +197,18 @@ function ImageModal({ isOpen, onClose, estimate }) {
       <div style={{ ...styles.modal, maxHeight: "80vh", overflowY: "auto", padding: "20px" }}>
         {/* 모달 최상단 정보 */}
         <div style={{ ...styles.title, borderBottom: '2px solid #ddd', paddingBottom: '15px', marginBottom: '15px' }}>
-          <h2>견적 이력 상세보기</h2>
-          <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}>
-            <div style={{display : 'flex', justifyContent : 'center', alignItems : 'center'}}>
+          <div style={{display : 'flex', justifyContent : 'center', alignItems : 'center', marginBottom : '20px'}}>
+            <h2>견적 이력 상세보기</h2>
+          </div>
+          <div>
+            <div style={{display : 'flex', justifyContent : 'center', alignItems : 'center', borderBottom: '2px solid #ddd', paddingBottom: '15px', marginBottom: '15px'}}>
               <div style={{ fontWeight: 'bold', fontSize : '20px'}}>
                   차량번호 : [{estimate.carNo}] &nbsp;&nbsp; 차량명 : [{estimate.carAlias }] &nbsp;&nbsp; 총 적정 예상 견적 : [{totalRecommended.toLocaleString()}원]
               </div>
             </div>
             <div>
-              <div style={{ fontWeight: 'bold', marginBottom: '5px' }}>신뢰도 기준&nbsp;&nbsp;&nbsp;&nbsp;</div>
-              <div style={{ display: 'flex', gap: '15px', flexWrap: 'wrap' }}>
+              <div style={{ display: 'flex', gap: '15px', flexWrap: 'wrap', justifyContent : 'center'}}>
+                <span style={{fontWeight : 'bold'}}>신뢰도 기준 : </span>
                 <div style={{ color: 'rgb(0, 255, 0)' }}>50% 이상 : 초록</div>
                 <div style={{ color: 'rgb(255, 165, 0)' }}>40 ~ 49% : 주황</div>
                 <div style={{ color: 'rgb(255, 255, 0)' }}>30 ~ 39% : 노랑</div>
