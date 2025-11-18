@@ -587,7 +587,7 @@ function EstimateResultModal({ isOpen, onClose, res }) {
             </thead>
             <tbody>
                 {res.regions.map(function(region, idx){
-                    return  <tr>
+                    return  <tr key={"region"+idx}>
                                 <td style={{...styles.textTitle, color : region.color}}># {region.id}</td>
                                 <td style={styles.textBody}>{region.type_kr} [{region.type}]</td>
                                 <td style={{...styles.textBody, color : region.color}}>{(region.confidence.model2_conf * 100).toFixed(1)}%</td>

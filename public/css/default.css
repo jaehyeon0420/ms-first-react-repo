@@ -578,4 +578,5 @@ section.section.bg-section {
 .pagination .page-item.active-page {
   background-color: var(--main2);
   color: #fff;
+  border-radius: 50%;
 }
