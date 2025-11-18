@@ -201,7 +201,7 @@ function ImageModal({ isOpen, onClose, estimate }) {
             <h2>견적 이력 상세보기</h2>
           </div>
           <div>
-            <div style={{display : 'flex', justifyContent : 'center', alignItems : 'center', borderBottom: '2px solid #ddd', paddingBottom: '15px', marginBottom: '15px'}}>
+            <div style={{display : 'flex', justifyContent : 'center', alignItems : 'center', paddingBottom: '15px', marginBottom: '15px'}}>
               <div style={{ fontWeight: 'bold', fontSize : '20px'}}>
                   차량번호 : [{estimate.carNo}] &nbsp;&nbsp; 차량명 : [{estimate.carAlias }] &nbsp;&nbsp; 총 적정 예상 견적 : [{totalRecommended.toLocaleString()}원]
               </div>
@@ -258,7 +258,7 @@ function ImageModal({ isOpen, onClose, estimate }) {
                       <tr key={region.id}>
                         <td style={{ ...styles.textTitle, color: region.color, border: "1px solid #ddd", padding: "8px" }}># {region.id}</td>
                         <td style={{ ...styles.textBody, border: "1px solid #ddd", padding: "8px" }}>{region.type_kr} [{region.type}]</td>
-                        <td style={{ ...styles.textBody, border: "1px solid #ddd", padding: "8px" }}>{(region.confidence.model2_conf * 100).toFixed(1)}%</td>
+                        <td style={{ ...styles.textBody, color: region.color, border: "1px solid #ddd", padding: "8px" }}>{(region.confidence.model2_conf * 100).toFixed(1)}%</td>
                         <td style={{ ...styles.textBody, border: "1px solid #ddd", padding: "8px" }}>{Number(region.recommended_cost).toLocaleString()}원</td>
                         <td style={{ ...styles.textBody, border: "1px solid #ddd", padding: "8px" }}>{Number(region.min_cost).toLocaleString()}원</td>
                         <td style={{ ...styles.textBody, border: "1px solid #ddd", padding: "8px" }}>{Number(region.max_cost).toLocaleString()}원</td>

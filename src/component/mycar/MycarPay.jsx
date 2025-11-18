@@ -89,7 +89,7 @@ export default function MycarPay(){
 
     //차량 선택 및 파손 이미지 엄로드 검증
     function validateReq(){
-        if(selectedCar == null){
+        if(selectedCar == null || selectedCar == ''){
              Swal.fire({
                 title: "알림",
                 text : "견적을 요청할 차량을 선택하세요.",
@@ -177,7 +177,7 @@ export default function MycarPay(){
             ).toBlob();
 
             // 파일명 생성 (현재 날짜 포함)
-            const fileName = `차량수리견적서_${new Date().toISOString().split('T')[0]}.pdf`;
+            const fileName = `SnapQ견적서_${selectedCar.carNo}_${new Date().toISOString().split('T')[0]}.pdf`;
 
             // 파일 다운로드
             saveAs(blob, fileName);
@@ -195,6 +195,69 @@ export default function MycarPay(){
         }
     };
 
+
+    // PDF 생성 및 이메일 전송
+    const handleSendEmail = async () => {
+      // 1. SweetAlert 이메일 입력
+      const { value: email } = await Swal.fire({
+        input: "email",
+        inputLabel: "수신 이메일을 입력하세요.",
+        inputPlaceholder: "example@domain.com",
+        showCancelButton: true,
+        confirmButtonText: "전송",
+        cancelButtonText : "취소"
+      });
+
+      // 취소 또는 입력 안함
+      if (!email) return;
+
+      // 2. 이메일 형식 검증
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        Swal.fire({
+          icon: "error",
+          title: "잘못된 이메일 형식",
+          text: "올바른 이메일 주소를 입력해주세요.",
+        });
+        return;
+      }
+
+      try {
+        setIsPdfGenerating(true);
+
+        // 3. PDF Blob 생성
+        const blob = await pdf(
+          <EstimatePDF
+            estimateResList={estimateResList}
+            selectedCar={selectedCar}
+            brokenFileNameList={brokenFileNameList}
+          />
+        ).toBlob();
+
+        // 4. 서버로 FormData 전송
+        const formData = new FormData();
+        formData.append("pdfFile", blob, `SnapQ견적서_${selectedCar.carNo}_${new Date().toISOString().split('T')[0]}.pdf`);
+        formData.append("email", email);
+
+        const res = await fetch(`${serverUrl}/mycar/send-email`, {
+          method: "POST",
+          body: formData,
+        });
+
+        if (res.ok) {
+          Swal.fire("완료", "이메일 전송이 완료되었습니다.", "success");
+        } else {
+          Swal.fire("실패", "이메일 전송 중 오류가 발생했습니다.", "error");
+        }
+
+      } catch (err) {
+        console.error(err);
+        Swal.fire("실패", "PDF 생성 또는 전송 중 오류가 발생했습니다.", "error");
+      } finally {
+        setIsPdfGenerating(false);
+      }
+    };
+    
     return(
         <>  <section className="section section-info">
                 <div className="page-title">수리비 견적 받기</div>
@@ -288,6 +351,14 @@ export default function MycarPay(){
                             disabled={isPdfGenerating}
                             style={{marginLeft: '10px'}}>
                             {isPdfGenerating ? 'PDF 생성 중...' : 'PDF로 다운로드'}
+                    </button>
+                    <button 
+                            type="button" 
+                            className="btn-primary lg" 
+                            onClick={handleSendEmail}
+                            disabled={isPdfGenerating}
+                            style={{marginLeft: '10px'}}>
+                            {isPdfGenerating ? 'PDF 생성 중...' : 'Email로 전송'}
                     </button>
                 </div>
                 :
@@ -519,7 +590,7 @@ function EstimateResultModal({ isOpen, onClose, res }) {
                     return  <tr>
                                 <td style={{...styles.textTitle, color : region.color}}># {region.id}</td>
                                 <td style={styles.textBody}>{region.type_kr} [{region.type}]</td>
-                                <td style={styles.textBody}>{(region.confidence.model2_conf * 100).toFixed(1)}%</td>
+                                <td style={{...styles.textBody, color : region.color}}>{(region.confidence.model2_conf * 100).toFixed(1)}%</td>
                                 <td style={styles.textBody}>{Number(region.recommended_cost).toLocaleString()}원</td>
                                 <td style={styles.textBody}>{Number(region.min_cost).toLocaleString()}원</td>
                                 <td style={styles.textBody}>{Number(region.max_cost).toLocaleString()}원</td>

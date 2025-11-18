@@ -225,8 +225,8 @@ section.section.bg-section {
   border: 1px solid rgba(235, 92, 92, 0.9);
 }
 .btn-primary {
-  border: 1px solid var(--main3);
-  background-color: var(--main3);
+  border: 1px solid var(--main2);
+  background-color: var(--main2);
   color: var(--gray8);
 }
 .btn-primary:hover {
