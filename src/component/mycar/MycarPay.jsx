@@ -8,7 +8,9 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-
+import EstimatePDF from '../common/EstimatePDF';
+import { pdf } from '@react-pdf/renderer';
+import { saveAs } from 'file-saver'; // 파일 다운로드용 (설치 필요: npm install file-saver)
 
 export default function MycarPay(){
     const serverUrl = import.meta.env.VITE_SPRING_CONTAINER_SERVER;
@@ -24,6 +26,8 @@ export default function MycarPay(){
     const [buttonFlag, setButtonFlag] = useState(false);                    //견적 요청 후, '견적 요청' 버튼 숨기기
     const [isModalOpen, setIsModalOpen] = useState(false);                  //모달 on/off 상태 체크
     const [selectedResIdx, setSelectedResIdx] = useState(null);
+
+    const [isPdfGenerating, setIsPdfGenerating] = useState(false); // PDF 생성 중 상태
   
     //내 차량 리스트 조회
     useEffect(function(){
@@ -43,6 +47,8 @@ export default function MycarPay(){
 
     function handleChange(e){
         setSelectedCar(e.target.value);
+
+
     }
 
     //파일 객체 연결
@@ -83,7 +89,7 @@ export default function MycarPay(){
 
     //차량 선택 및 파손 이미지 엄로드 검증
     function validateReq(){
-        if(selectedCar == ''){
+        if(selectedCar == null){
              Swal.fire({
                 title: "알림",
                 text : "견적을 요청할 차량을 선택하세요.",
@@ -120,7 +126,7 @@ export default function MycarPay(){
         let formData = new FormData();
 
         //차량 ID
-        formData.append("carId", selectedCar);
+        formData.append("carId", selectedCar.carId);
 
         //파손 이미지 파일들
         for(let i=0; i<brokenFileList.length; i++){
@@ -149,6 +155,45 @@ export default function MycarPay(){
         });
     }
 
+    // PDF 다운로드 함수
+    const downloadPdf = async () => {
+        if (!estimateResList || estimateResList.length === 0) {
+            Swal.fire({
+                title: "알림",
+                text: "다운로드할 견적 정보가 없습니다.",
+                icon: "warning",
+                confirmButtonText: "확인",
+            });
+            return;
+        }
+
+        try {
+            //PDF 다운로드 상태 변경
+            setIsPdfGenerating(true);
+
+            // PDF 문서 생성
+            const blob = await pdf(
+                <EstimatePDF estimateResList={estimateResList} selectedCar={selectedCar} brokenFileNameList={brokenFileNameList}/>
+            ).toBlob();
+
+            // 파일명 생성 (현재 날짜 포함)
+            const fileName = `차량수리견적서_${new Date().toISOString().split('T')[0]}.pdf`;
+
+            // 파일 다운로드
+            saveAs(blob, fileName);
+
+        } catch (error) {
+            console.error('PDF 생성 오류:', error);
+            Swal.fire({
+                title: "오류",
+                text: "PDF 생성 중 오류가 발생했습니다.",
+                icon: "error",
+                confirmButtonText: "확인",
+            });
+        } finally {
+            setIsPdfGenerating(false);
+        }
+    };
 
     return(
         <>  <section className="section section-info">
@@ -165,7 +210,7 @@ export default function MycarPay(){
                                 onChange={handleChange}>
                                     {carList ? carList.map(function(car, idx){
                                         return (
-                                            <MenuItem key={"car"+idx} value={car.carId}>
+                                            <MenuItem key={"car"+idx} value={car}>
                                                 {car.carAlias} [{car.carNo}]
                                             </MenuItem>
                                         )
@@ -174,7 +219,7 @@ export default function MycarPay(){
                     </FormControl>
                 </Box>
                 </div>
-                <ul className="posting-wrap" style={{textAlign:'center'}}>
+                <ul className="posting-wrap" style={{textAlign:'center', maxHeight : '400px', overflowY : 'auto'}}>
                     {brokenFileThumbList.length > 0 
                         ?  estimateResList.length > 0
                                 ?
@@ -225,7 +270,7 @@ export default function MycarPay(){
                           <img src="/images/example.PNG" className="pay-img" onClick={function(e){
                               brokenFileEl.current.click(); //아래 input type=file 클릭
                           }}/>
-                          <div class="hover-text">클릭하여 이미지 업로드!</div>
+                          <div className="hover-text">클릭하여 이미지 업로드!</div>
                         </div>
                     }
                 </ul>
@@ -234,7 +279,17 @@ export default function MycarPay(){
                 <input type="file" accept="image/*" style={{display:"none"}} ref={brokenFileEl} onChange={chgBrokenFileList} multiple/>
                 { //견적 요청 결과 받은 이후, '견적 요청' 버튼 숨기기
                 buttonFlag
-                ? null
+                ? 
+                <div className="button-zone">
+                    <button 
+                            type="button" 
+                            className="btn-red lg" 
+                            onClick={downloadPdf}
+                            disabled={isPdfGenerating}
+                            style={{marginLeft: '10px'}}>
+                            {isPdfGenerating ? 'PDF 생성 중...' : 'PDF로 다운로드'}
+                    </button>
+                </div>
                 :
                 <div className="button-zone">
                     <button type="button" className="btn-primary lg" onClick={reqEstimate}>

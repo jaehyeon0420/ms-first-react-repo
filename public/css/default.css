@@ -215,6 +215,15 @@ section.section.bg-section {
   border-radius: 5px;
   font-family: ns-b; /* 상단 @font-face로 지정한 값 사용 */
 }
+.btn-red {
+  border: 1px solid red;
+  background-color: red;
+  color: white;
+}
+.btn-red:hover {
+  background-color: rgba(235, 92, 92, 0.9);
+  border: 1px solid rgba(235, 92, 92, 0.9);
+}
 .btn-primary {
   border: 1px solid var(--main3);
   background-color: var(--main3);
