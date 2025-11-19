@@ -8,12 +8,14 @@ export default function Header () {
         <header className="header">
             <div>
                 <div className="logo">
+                    
                     {isLogined 
                     ?
-                    <Link to="/mycar/info">Snap Q</Link>
+                    <Link to="/mycar/info">Snap</Link>
                     :
-                    <Link to="/">Snap Q</Link>
+                    <Link to="/">Snap</Link>
                     }
+                    <img src='/logo.png' alt="로고이미지" style={{width:50}}></img>
                 </div>
             </div>
         </header>

@@ -65,7 +65,9 @@ a {
 }
 
 .header {
-  background-color: var(--main2);
+  background-color: white;
+  border-bottom: 2px solid var(--main2);
+  border-top: 2px solid var(--main2);
   width: 100%;
   position: sticky; /* 스크롤 시, 타 요소와 겹쳐보이나 top : 0의 위치에 도달하면, 본인의 영역을 가진다. fixed랑 비교해볼것. */
   top: 0;
@@ -79,10 +81,13 @@ a {
   align-items: center;
 }
 .header a {
-  color: var(--gray8);
+  color: var(--main2);
 }
 .logo {
   margin-right: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .logo > a {
   font-family: ns-black;
