@@ -11,6 +11,8 @@ import Select from '@mui/material/Select';
 import EstimatePDF from '../common/EstimatePDF';
 import { pdf } from '@react-pdf/renderer';
 import { saveAs } from 'file-saver'; // 파일 다운로드용 (설치 필요: npm install file-saver)
+import { Map } from "react-kakao-maps-sdk";
+import KakaoAutoMap from "../common/KakaoAutoMap";
 
 export default function MycarPay(){
     const serverUrl = import.meta.env.VITE_SPRING_CONTAINER_SERVER;
@@ -28,7 +30,10 @@ export default function MycarPay(){
     const [selectedResIdx, setSelectedResIdx] = useState(null);
 
     const [isPdfGenerating, setIsPdfGenerating] = useState(false); // PDF 생성 중 상태
-  
+
+
+    
+
     //내 차량 리스트 조회
     useEffect(function(){
         let options = {};
@@ -146,6 +151,7 @@ export default function MycarPay(){
             //견적비 화면에 보여주기
             setEstimateResList(res.data.resData);
             setButtonFlag(true);
+
         })
         .catch(function(error){
         })
@@ -259,9 +265,13 @@ export default function MycarPay(){
     };
     
     return(
-        <>  <section className="section section-info">
+        <>  <section className="section section-info" style={{overflowY : 'auto', height : '100px'}}>
                 <div className="page-title">수리비 견적 받기</div>
                 <div style={{width : "60%", margin : "0 auto"}}>
+                {buttonFlag 
+                ?
+                <h2 style={{textAlign : 'center'}}>견적 요청 차량 : {selectedCar.carAlias} [{selectedCar.carNo}]</h2>
+                :
                 <Box sx={{ minWidth: 120 }}>
                     <FormControl fullWidth>
                         <InputLabel id="demo-simple-select-label">차량선택</InputLabel>
@@ -281,8 +291,9 @@ export default function MycarPay(){
                         </Select>
                     </FormControl>
                 </Box>
+                }
                 </div>
-                <ul className="posting-wrap" style={{textAlign:'center', maxHeight : '400px', overflowY : 'auto'}}>
+                <ul className="posting-wrap" style={{textAlign:'center'}}>
                     {brokenFileThumbList.length > 0 
                         ?  estimateResList.length > 0
                                 ?
@@ -336,41 +347,47 @@ export default function MycarPay(){
                           <div className="hover-text">클릭하여 이미지 업로드!</div>
                         </div>
                     }
+                    <input type="file" accept="image/*" style={{display:"none"}} ref={brokenFileEl} onChange={chgBrokenFileList} multiple/>
                 </ul>
-                <div style={{width : "60%", margin : "0 auto"}}>
-                </div>
-                <input type="file" accept="image/*" style={{display:"none"}} ref={brokenFileEl} onChange={chgBrokenFileList} multiple/>
-                { //견적 요청 결과 받은 이후, '견적 요청' 버튼 숨기기
-                buttonFlag
-                ? 
-                <div className="button-zone">
-                    <button 
-                            type="button" 
-                            className="btn-red lg" 
-                            onClick={downloadPdf}
-                            disabled={isPdfGenerating}
-                            style={{marginLeft: '10px'}}>
-                            {isPdfGenerating ? 'PDF 생성 중...' : 'PDF로 다운로드'}
-                    </button>
-                    <button 
-                            type="button" 
-                            className="btn-primary lg" 
-                            onClick={handleSendEmail}
-                            disabled={isPdfGenerating}
-                            style={{marginLeft: '10px'}}>
-                            {isPdfGenerating ? 'PDF 생성 중...' : 'Email로 전송'}
-                    </button>
-                </div>
-                :
-                <div className="button-zone">
-                    <button type="button" className="btn-primary lg" onClick={reqEstimate}>
-                        견적 요청
-                    </button>
-                </div>
-                }
+                    { //견적 요청 결과 받은 이후, '견적 요청' 버튼 숨기기
+                    buttonFlag
+                    ? 
+                    <>
+                      {/* 지도 표시 영역 */}
+                      <div id="mapDiv" style={{ width: '100%'}}>
+                        <h3 style={{marginBottom : '25px', textAlign : "right", height : '20px', color : '#6059f7'}}>※ 주변 정비소</h3>
+                        <KakaoAutoMap />
+                      </div>
+                      <div className="button-zone">
+                          <button 
+                                  type="button" 
+                                  className="btn-red lg" 
+                                  onClick={downloadPdf}
+                                  disabled={isPdfGenerating}
+                                  style={{marginLeft: '10px'}}>
+                                  {isPdfGenerating ? 'PDF 생성 중...' : 'PDF로 다운로드'}
+                          </button>
+                          <button 
+                                  type="button" 
+                                  className="btn-primary lg" 
+                                  onClick={handleSendEmail}
+                                  disabled={isPdfGenerating}
+                                  style={{marginLeft: '10px'}}>
+                                  {isPdfGenerating ? 'PDF 생성 중...' : 'Email로 전송'}
+                          </button>
+                      </div>
+                    </>
+                    :
+                    <div className="button-zone">
+                        <button type="button" className="btn-primary lg" onClick={reqEstimate}>
+                            견적 요청
+                        </button>
+                    </div>
+                    }
 
                 {/* 로딩 중일 때 모달 표시 */}
-                {loading && <LoadingModal />}
+                {loading && <LoadingModal />}             
+  
             </section>
         </>
     );

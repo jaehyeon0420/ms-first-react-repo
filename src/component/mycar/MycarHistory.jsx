@@ -36,7 +36,7 @@ export default function MycarHistory(){
     return(
         <>  <section className="section section-info">
                 <div className="page-title">수리비 견적 이력</div>
-                <table className="tbl" style={{minHeight : '520px'}}>
+                <table className="tbl" >
                     <thead>
                         <tr>
                             <th style={{width:"10%"}}>번호</th>
@@ -54,7 +54,7 @@ export default function MycarHistory(){
                         })}
                     </tbody>
                 </table>
-                <div className="admin-page-wrap" style={{marginTop : "30px"}}>
+                <div className="admin-page-wrap" style={{marginTop : "20px"}}>
                     {/* 페이지 네비게이션 컴포넌트 별도 분리하여, 필요 시 재사용 */}
                     {/* 페이지 네비게이션 제작 후, 페이지 번호 클릭 시 reqPage가 변경되어 요청해야 함 */}
                     <PageNavi pageInfo={pageInfo} reqPage={reqPage} setReqPage={setReqPage} />
